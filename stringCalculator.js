@@ -13,8 +13,17 @@ function add(numbers) {
         return 0;
     }
     
-    // Replace newlines (\n) with commas and split the string by commas
-    const numberArray = numbers.replace(/\n/g, ',').split(',').map(Number);
+    let delimiter = /,|\n/; // Default delimiters: comma and newline
+
+    // Check for custom delimiter
+    if (numbers.startsWith("//")) {
+        const parts = numbers.split("\n", 2); // Split the first line (delimiter definition) and the rest
+        delimiter = new RegExp(parts[0].slice(2)); // Extract the delimiter from "//[delimiter]"
+        numbers = parts[1]; // Update the numbers string to exclude the delimiter line
+    }
+
+    // Split the numbers string by the delimiter(s)
+    const numberArray = numbers.split(delimiter).map(Number);
     
     // Sum up the numbers in the array
     return numberArray.reduce((sum, num) => sum + num, 0);
