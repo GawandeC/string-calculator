@@ -9,6 +9,7 @@
 // Input: "//;\n1;2", Output: 3
 // Input: "//;\n1;-2;3", Output: throw error
 // Input: "2,1001", Output: 2
+// Input: "//***\n1***2***3", Output: 6
 
 function add(numbers) {
     // Handle the empty string case
@@ -19,10 +20,20 @@ function add(numbers) {
     let delimiter = /,|\n/; // Default delimiters: comma and newline
     let negatives = []; // Array to store negative numbers
 
-    // Check for custom delimiter
+    // Check for custom delimiter with any length and characters
     if (numbers.startsWith("//")) {
         const parts = numbers.split("\n", 2); // Split the first line (delimiter definition) and the rest
-        delimiter = new RegExp(parts[0].slice(2)); // Extract the delimiter from "//[delimiter]"
+        let customDelimiter = parts[0].slice(2); // Get the custom delimiter after "//"
+
+        // Handle square bracket custom delimiters, e.g., [!!!]
+        if (customDelimiter.startsWith("[") && customDelimiter.endsWith("]")) {
+            customDelimiter = customDelimiter.slice(1, -1); // Remove the square brackets
+        }
+
+        // Escape special characters for regex compatibility
+        const escapedDelimiter = customDelimiter.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+
+        delimiter = new RegExp(escapedDelimiter); // Create a regular expression using the custom delimiter
         numbers = parts[1]; // Update the numbers string to exclude the delimiter line
     }
 

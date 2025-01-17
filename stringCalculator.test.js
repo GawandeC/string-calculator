@@ -37,4 +37,10 @@ test('ignores numbers greater than 1000', () => {
     expect(add("//;\n1000;2000;2")).toBe(1002);
 });
 
+test('supports custom delimiters with varying lengths', () => {
+    expect(add("//***\n1***2***3")).toBe(6); // Custom delimiter: ***
+    expect(add("//[!!!]\n1!!!2!!!3")).toBe(6); // Custom delimiter: [!!!]
+    expect(add("//|\n10|20|30")).toBe(60); // Custom delimiter: |
+});
+
 });
