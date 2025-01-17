@@ -7,6 +7,7 @@
 // Input: “1,5”, Output: 6
 // Input: "1\n2,3", Output:6
 // Input: "//;\n1;2", Output: 3
+// InputL "//;\n1;-2;3", Output: throw error
 
 function add(numbers) {
     // Handle the empty string case
@@ -15,6 +16,7 @@ function add(numbers) {
     }
     
     let delimiter = /,|\n/; // Default delimiters: comma and newline
+    let negatives = []; // Array to store negative numbers
 
     // Check for custom delimiter
     if (numbers.startsWith("//")) {
@@ -25,7 +27,17 @@ function add(numbers) {
 
     // Split the numbers string by the delimiter(s)
     const numberArray = numbers.split(delimiter).map(Number);
-    
+    // Check for negative numbers
+    numberArray.forEach(num => {
+        if (num < 0) {
+            negatives.push(num);
+        }
+    });
+
+    // If there are negative numbers, throw an error
+    if (negatives.length > 0) {
+        throw new Error(`Negative numbers not allowed: ${negatives.join(', ')}`);
+    }
     // Sum up the numbers in the array
     return numberArray.reduce((sum, num) => sum + num, 0);
 }
