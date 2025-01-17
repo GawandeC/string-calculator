@@ -7,7 +7,8 @@
 // Input: “1,5”, Output: 6
 // Input: "1\n2,3", Output:6
 // Input: "//;\n1;2", Output: 3
-// InputL "//;\n1;-2;3", Output: throw error
+// Input: "//;\n1;-2;3", Output: throw error
+// Input: "2,1001", Output: 2
 
 function add(numbers) {
     // Handle the empty string case
@@ -27,8 +28,12 @@ function add(numbers) {
 
     // Split the numbers string by the delimiter(s)
     const numberArray = numbers.split(delimiter).map(Number);
+
+    // Filter out numbers greater than 1000
+    const validNumbers = numberArray.filter(num => num <= 1000);
+
     // Check for negative numbers
-    numberArray.forEach(num => {
+    validNumbers.forEach(num => {
         if (num < 0) {
             negatives.push(num);
         }
@@ -39,7 +44,7 @@ function add(numbers) {
         throw new Error(`Negative numbers not allowed: ${negatives.join(', ')}`);
     }
     // Sum up the numbers in the array
-    return numberArray.reduce((sum, num) => sum + num, 0);
+    return validNumbers.reduce((sum, num) => sum + num, 0);
 }
 
 module.exports = add;
