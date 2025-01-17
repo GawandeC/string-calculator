@@ -7,15 +7,18 @@
 // Input: “1,5”, Output: 6
 
 function add(numbers) {
-    // If the input is empty, return 0
-    if (!numbers) return 0;
-  
-    // Split the string by commas, parse them into integers, and calculate the sum
-    return numbers
-      .split(",")
-      .map(Number)
-      .reduce((sum, num) => sum + num, 0);
-  }
-  
-  module.exports = add;
+    // Handle the empty string case
+    if (!numbers) {
+        return 0;
+    }
+    
+    // Split the input string by commas and convert each part to a number
+    const numberArray = numbers.split(',').map(Number);
+    
+    // Sum up the numbers in the array
+    return numberArray.reduce((sum, num) => sum + num, 0);
+}
+
+module.exports = add;
+
   
